@@ -221,8 +221,6 @@ values(1, 1, 5, 0.58, 2.9, 3.25),
 (1, 4, 1, 0.36, 0.36, 0.4);
 
 
-
-
 select * from categorias;
 select * from categorias_unidad_medida;
 select * from unidades_medida;
