@@ -25,9 +25,6 @@ public class ProveedoresBDD {
 					"where upper(nombre) like ?");
 			ps.setString(1, "%" + subcadena.toUpperCase() + "%");
 			rs = ps.executeQuery();
-			
-			
-
 
 			while (rs.next()) {
 				String identificador = rs.getString("identificador");
