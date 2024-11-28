@@ -20,11 +20,14 @@ public class ProveedoresBDD {
 		try {
 			con = ConexionBDD.obtenerConexion();
 			ps = con.prepareStatement(
-					"select identificador , tipo_documento, nombre, telefono, correo, direccion"
-					+ " from proveedores"
-					+ "where upper(nombre) like ?");
+					"select identificador, tipo_documento, nombre, telefono, correo, direccion " +
+					"from proveedores " +
+					"where upper(nombre) like ?");
 			ps.setString(1, "%" + subcadena.toUpperCase() + "%");
 			rs = ps.executeQuery();
+			
+			
+
 
 			while (rs.next()) {
 				String identificador = rs.getString("identificador");
