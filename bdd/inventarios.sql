@@ -130,6 +130,11 @@ insert into proveedores (identificador , tipo_documento, nombre, telefono, corre
 values ('1792285747', 'C', 'Santiago Mosquera', 0992920306, 'santiago@gmail.com', 'Cumbayork'),
 ('1792285747001', 'R', 'Santiago S.A', 0992920398, 'santsnack@gmail.com', 'La Tola');
 
+select identificador , tipo_documento, nombre, telefono, correo, direccion
+from proveedores
+where upper(nombre) like '%SA%';
+
+
 create table estados_pedido(
 	codigo_est char(1) not null,
 	descripcion varchar(20) not null,
