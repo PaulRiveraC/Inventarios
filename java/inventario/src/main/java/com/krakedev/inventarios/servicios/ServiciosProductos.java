@@ -21,7 +21,7 @@ public class ServiciosProductos {
 	@Path("buscar/{sub}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response buscar(@PathParam("sub") String subcadena){
+	public Response buscar(@PathParam("sub") String subcadena) {
 		ProductosBDD productosBDD = new ProductosBDD();
 		ArrayList<Producto> productos = null;
 		try {
@@ -30,7 +30,7 @@ public class ServiciosProductos {
 		} catch (KrakeDevException e) {
 			e.printStackTrace();
 			return Response.serverError().build();
-		}	
+		}
 	}
 
 }
