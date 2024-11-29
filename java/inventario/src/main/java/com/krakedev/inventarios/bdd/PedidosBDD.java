@@ -83,6 +83,9 @@ public class PedidosBDD {
 		PreparedStatement ps = null;
 		PreparedStatement psDetalle = null;
 		PreparedStatement psHStock = null;
+		
+		Date fechaActual = new Date();
+		Timestamp fechaHora = new Timestamp(fechaActual.getTime());
 		try {
 			con = ConexionBDD.obtenerConexion();
 			ps = con.prepareStatement("update cabecera_pedido set estado = ? where numero_cab = ?");
@@ -105,9 +108,6 @@ public class PedidosBDD {
 				psDetalle.setBigDecimal(2, subtotal);
 				psDetalle.setInt(3, det.getCodigo_dp());
 				psDetalle.executeUpdate();
-
-				Date fechaActual = new Date();
-				Timestamp fechaHora = new Timestamp(fechaActual.getTime());
 
 				psHStock = con.prepareStatement(
 						"insert into historial_stock (fecha, referencia, producto, cantidad) values (?, ?, ?, ?)");
