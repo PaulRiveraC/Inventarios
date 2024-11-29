@@ -158,6 +158,10 @@ public class PedidosBDD {
 			while (rs.next()) {
 
 				int numero_cab = rs.getInt("numero_cab");
+				String indentProveedor = rs.getString("proveedor");
+
+				ProveedoresBDD proveedoresBDD = new ProveedoresBDD();
+				proveedor = proveedoresBDD.buscarPorIdentificador(indentProveedor);
 
 				Date fecha = rs.getDate("fecha");
 				String codEst = rs.getString("estado");
@@ -176,6 +180,8 @@ public class PedidosBDD {
 
 				detalles = new ArrayList<DetallePedido>();
 
+				DetallesPedidoBDD detallesPedidoBDD = new DetallesPedidoBDD();
+				detalles = detallesPedidoBDD.buscarPorCabecera(numero_cab);
 
 				pedido.setDetalles(detalles);
 				pedido.setProveedor(proveedor);

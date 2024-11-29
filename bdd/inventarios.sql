@@ -259,8 +259,8 @@ and upper (prod.nombre) like '%M%';
 
 
 update cabecera_pedido
-set estado= 'S' where codigo =5
+set estado= 'S' where codigo =5;
 
 update detalle_pedido
 set cantidad_recibida= 40, subtotal =20
-where codigo_dp=5
+where codigo_dp=5;
