@@ -98,7 +98,7 @@ create table productos(
 
 
 insert into productos (nombre , udm, precio_venta, tiene_iva, coste, categoria, stock) 
-values('Coca cola pequeña', 'u', 0.5804, true, 0.3729, 7, 100),
+values('Coca cola pequeña', 'ml', 0.5804, true, 0.3729, 7, 100),
 ('Salsa de tomate', 'kg', 0.95, true, 0.8736, 3, 0),
 ('Mostaza', 'kg', 0.95, true, 0.89, 3, 0),
 ('Fuze tea', 'u', 0.8, true, 0.7, 7, 50);
@@ -130,10 +130,6 @@ insert into proveedores (identificador , tipo_documento, nombre, telefono, corre
 values ('1792285747', 'C', 'Santiago Mosquera', 0992920306, 'santiago@gmail.com', 'Cumbayork'),
 ('1792285747001', 'R', 'Santiago S.A', 0992920398, 'santsnack@gmail.com', 'La Tola');
 
-select prov.identificador , prov.tipo_documento,td.descripcion, prov.nombre, prov.telefono, prov.correo, prov.direccion
-from proveedores prov, tipo_documento td
-where prov.tipo_documento = td.codigo_doc
-and upper(nombre) like '%SA%';
 
 
 create table estados_pedido(
@@ -239,5 +235,27 @@ select * from detalle_pedido;
 select * from cabecera_ventas;
 select * from detalle_ventas;
 select * from historial_stock;
+
+select prov.identificador , prov.tipo_documento,td.descripcion, prov.nombre, prov.telefono, prov.correo, prov.direccion
+from proveedores prov, tipo_documento td
+where prov.tipo_documento = td.codigo_doc
+and upper(nombre) like '%SA%';
+
+select * from productos prod, unidades_medida udm, categorias cat
+where prod.udm = udm.codigo_udm
+and prod.categoria = cat.codigo_cat;
+
+
+
+select prod.codigo_pro, prod.nombre as nombre_producto, 
+udm.codigo_udm as nombre_udm, udm.descripcion as descripcio_udm,
+cast(prod.precio_venta as decimal (6,2)), prod.tiene_iva, 
+cast (prod.coste as decimal (5,4)),
+prod.categoria, cat.nombre as nombre_categoria, stock
+from productos prod, unidades_medida udm, categorias cat
+where prod.udm = udm.codigo_udm
+and prod.categoria = cat.codigo_cat
+and upper (prod.nombre) like '%M%';
+
 
 

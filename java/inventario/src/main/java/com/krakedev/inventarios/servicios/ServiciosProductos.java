@@ -33,4 +33,18 @@ public class ServiciosProductos {
 		}
 	}
 
+	@Path("crear")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response crear(Producto producto) {
+		ProductosBDD productosBDD = new ProductosBDD();
+		try {
+			productosBDD.insertar(producto);
+			return Response.ok().build();
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
+	}
+
 }

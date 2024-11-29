@@ -6,6 +6,7 @@ public class UnidadesMedida {
 	private CategoriasUnidadMedida categoria_udm;
 	
 	
+	
 	public UnidadesMedida() {
 		super();
 	}
@@ -38,6 +39,8 @@ public class UnidadesMedida {
 		return "UnidadesMedida [codigo_udm=" + codigo_udm + ", descripcion=" + descripcion + ", categoria_udm="
 				+ categoria_udm + "]";
 	}
+	
+	
 	
 	
 }
