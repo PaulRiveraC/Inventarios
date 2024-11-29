@@ -80,4 +80,51 @@ public class ProveedoresBDD {
 		}
 	}
 
+	public Proveedor buscarPorIdentificador(String identi) throws KrakeDevException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Proveedor proveedor = null;
+		TiposDocumento tiposDocumento = null;
+		ResultSet rs2 = null;
+		PreparedStatement ps2 = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("select * from proveedores where identificador = ?");
+			ps.setString(1, identi);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				String identificador = rs.getString("identificador");
+				String nombre = rs.getString("nombre");
+				String tipo_documento = rs.getString("tipo_documento");
+
+				ps2 = con.prepareStatement("select * from tipo_documento where codigo_doc = ?");
+				ps2.setString(1, tipo_documento);
+				rs2 = ps2.executeQuery();
+				if (rs2.next()) {
+					String codigo_doc = rs2.getString("codigo_doc");
+					String descripcion = rs2.getString("descripcion");
+
+					tiposDocumento = new TiposDocumento(codigo_doc, descripcion);
+				}
+
+				String telefono = rs.getString("telefono");
+				String correo = rs.getString("correo");
+				String direccion = rs.getString("direccion");
+
+				proveedor = new Proveedor(identificador, tiposDocumento, nombre, telefono, correo, direccion);
+			}
+
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al consultar proveedor por identificador, detalle: " + e.getMessage());
+		}
+
+		return proveedor;
+	}
+
 }

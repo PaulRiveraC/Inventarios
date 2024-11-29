@@ -9,6 +9,7 @@ public class Categorias {
 	public Categorias() {
 		super();
 	}
+	
 	public Categorias(int codigo_cat, String nombre, Categorias categoria_padre) {
 		super();
 		this.codigo_cat = codigo_cat;

@@ -7,12 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.krakedev.inventarios.entidades.DetallePedido;
+import com.krakedev.inventarios.entidades.EstadoPedido;
 import com.krakedev.inventarios.entidades.Pedido;
+import com.krakedev.inventarios.entidades.Proveedor;
 import com.krakedev.inventarios.excepciones.KrakeDevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
 
@@ -133,6 +134,66 @@ public class PedidosBDD {
 				}
 			}
 		}
+	}
+
+	public ArrayList<Pedido> buscarPorProveedor(String identP) throws KrakeDevException {
+		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Pedido pedido = null;
+		Proveedor proveedor = null;
+		EstadoPedido estadoPedido = null;
+
+		ResultSet rs2 = null;
+		PreparedStatement ps2 = null;
+
+		ArrayList<DetallePedido> detalles = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("select * from cabecera_pedido where proveedor = ?");
+			ps.setString(1, identP);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				int numero_cab = rs.getInt("numero_cab");
+
+				Date fecha = rs.getDate("fecha");
+				String codEst = rs.getString("estado");
+
+				ps2 = con.prepareStatement("select * from estados_pedido where codigo_est = ?");
+				ps2.setString(1, codEst);
+				rs2 = ps2.executeQuery();
+				if (rs2.next()) {
+					String codigo_est = rs2.getString("codigo_est");
+					String descripcion = rs2.getString("descripcion");
+					estadoPedido = new EstadoPedido(codigo_est, descripcion);
+				}
+
+				pedido = new Pedido();
+				pedido.setNumero_cab(numero_cab);
+
+				detalles = new ArrayList<DetallePedido>();
+
+
+				pedido.setDetalles(detalles);
+				pedido.setProveedor(proveedor);
+				pedido.setFecha(fecha);
+				pedido.setEstado(estadoPedido);
+
+				pedidos.add(pedido);
+			}
+
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al consultar pedidos, detalle: " + e.getMessage());
+		}
+		return pedidos;
+
 	}
 
 }
