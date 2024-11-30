@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="funciones.js"></script>
+    <script src="utilitarios.js"></script>
+</head>
+
+<body>
+    <h4>Ingrese el valor 1</h4>
+    <input type="text" id="txtvalor1" />
+    <h4>Ingrese el valor 2</h4>
+    <input type="text" id="txtvalor2" />
+    <input type="button" value="Sumar" onclick="ejecutarSumar(sumar)" />
+    <input type="button" value="Restar" onclick="ejecutarOperacion(restar)" />
+    <input type="button" value="Multiplicar" onclick="ejecutarOperacion((param1, param2)=>{
+            let resultadoMul = param1 * param2;
+            return resultadoMul;
+        })" />
+    <input type="button" value="Determinar Mayor" onclick="ejecutarOperacion((a1, a2)=>{
+                    if(a1 > a2){
+                        return a1;
+                    }else{
+                        return a2;
+                    }
+                })" />
+    <input type="button" value="Ejecutar" onclick="testEjecutar()" />
+
+
+</body>
+
+</html>

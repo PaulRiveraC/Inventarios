@@ -264,3 +264,6 @@ set estado= 'S' where codigo =5;
 update detalle_pedido
 set cantidad_recibida= 40, subtotal =20
 where codigo_dp=5;
+
+delete from categorias where codigo_cat=9;
+delete from categorias where codigo_cat=7;

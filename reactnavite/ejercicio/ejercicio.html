@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="ejercicio.js"></script>
+</head>
+
+<body>
+    <input type="text" id="txtValor" />
+    <input type="button" value="TEST1" onclick="ejecutarCadena((texto)=>{
+            console.log('Hola '+texto);
+        });" />
+    <input type="button" value="TEST2" onclick="ejecutarCadena((texto)=>{
+    let mayusculas = texto.toUpperCase();
+    console.log('En mayusculas: '+mayusculas);
+});" />
+    <input type="button" value="TEST3" onclick="ejecutarCadena((texto)=>{
+    let numCaracteres =  texto.length;
+    alert('Numero de caracteres: '+numCaracteres);
+});" />
+</body>
+
+</html>
