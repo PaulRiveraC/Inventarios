@@ -6,7 +6,7 @@ export default function App() {
   const [dolares, setDolares] = useState("Ingrese monto");
   const [pesosMexicanos, setPesosMexicano] = useState("0.00 ");
   const [pesosColombianos, setPesosColombianos] = useState("0.00 ");
-  const [euros, setEuros] = useState("0.00 ");
+  const [euros, setEuros] = useState("0.00  ");
 
   const monedaMexicana = 18;
   const monedaColombiana = 4.0;

@@ -10,7 +10,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>calculadora</Text>
-      <Text>La respueta es: {respuesta}</Text>
+      <Text>La respuesta es: {respuesta}</Text>
 
       <StatusBar style="auto" />
 
