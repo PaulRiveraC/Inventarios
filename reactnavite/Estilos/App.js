@@ -19,7 +19,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: "column",
     //flexDirection: "row"
-    justifyContent: "center"
+    //justifyContent: "center"
+    //justifyContent: "flex-star"
+    //justifyContent: "flex-end"
+    //justifyContent: "space-around"
+    //justifyContent: "space-between"
+    justifyContent: "space-evenly"
+
+
+
+
+
+
 
   },
 });
