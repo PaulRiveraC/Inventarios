@@ -40,30 +40,32 @@ export default function App() {
           const imc = pesoFloat / (estaturaMetros * estaturaMetros);
           let resultado="";
           if (imc < 18.5) {
-            resultado="IMC", "SU PESO ES INFERIOR AL NORMAL";
+            resultado="SU PESO ES INFERIOR AL NORMAL";
           }
           if (imc >= 18.5 && imc <= 25) {
-            resultado=("IMC", "SU PESO ES NORMAL");
+            resultado=("SU PESO ES NORMAL");
           }
           if (imc >= 25 && imc <= 30) {
-            resultado=("IMC", "SU PESO ES SUPERIOR AL NORMAL");
+            resultado=("SU PESO ES SUPERIOR AL NORMAL");
           }
           if (imc > 30) {
-            resultado=("IMC", "TIENE OBESIDAD");
+            resultado=("TIENE OBESIDAD");
           }
+
+          setResultado(imc.toFixed(2)+ " "+resultado);
 
         }}
 
       />
       <Text> Resultado:
-        <TextInput
+
+      </Text>
+      <TextInput
           style={styles.cajaDeTexto}
           value={Resultado}
           onChangeText={setResultado}
           placeholder="_____________________________"
         />
-      </Text>
-
 
 
       <StatusBar style="auto" />
