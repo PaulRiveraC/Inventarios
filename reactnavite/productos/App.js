@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableHighlight, Modal, Pressable } from 'react-native';
 import { useState } from 'react';
 
+// Lista de productos iniciales
 let productos = [
   { nombre: "Manzanas", categoria: "Frutas", precioCompra: "0.50", precioVenta: "0.60", id: "200" },
   { nombre: "Pan", categoria: "Panadería", precioCompra: "0.30", precioVenta: "0.40", id: "201" },
@@ -10,11 +11,12 @@ let productos = [
   { nombre: "Yogur", categoria: "Lácteos", precioCompra: "0.80", precioVenta: "1.00", id: "204" }
 ];
 
-let esNuevo = true;
-let indiceSeleccionado = -1;
+let esNuevo = true; // Bandera para saber si es un producto nuevo
+let indiceSeleccionado = -1; // Índice del producto seleccionado
 
 export default function App() {
 
+  // Estados para los campos de texto y otros elementos de la interfaz
   const [txtId, setTxtId] = useState();
   const [txtNombre, setTxtNombre] = useState();
   const [txtCategoria, setTxtCategoria] = useState();
@@ -23,6 +25,7 @@ export default function App() {
   const [numElementos, setNumElementos] = useState(productos.length);
   const [modalVisible, setModalVisible] = useState(false);
 
+  // Función para verificar si un producto ya existe
   let existeProducto = () => {
     for (let i = 0; i < productos.length; i++) {
       if (productos[i].id == txtId) {
@@ -32,6 +35,7 @@ export default function App() {
     return false;
   }
 
+  // Función para verificar si hay campos vacíos
   let camposVacios = () => {
     if (txtId == null || txtNombre == null || txtCategoria == null || txtPrecioCompra == null || txtId == "" || txtNombre == "" || txtCategoria == "" || txtPrecioCompra == "") {
       return true;
@@ -40,6 +44,7 @@ export default function App() {
     }
   }
 
+  // Función para guardar un producto
   let guardarProducto = () => {
     if (camposVacios()) {
       Alert.alert("INFO", "Ingrese todos los campos obligatorios");
@@ -73,6 +78,7 @@ export default function App() {
     }
   }
 
+  // Componente para renderizar un producto en la lista
   let ItemProducto = ({ indice, producto }) => {
     return (
       <TouchableHighlight
@@ -118,6 +124,7 @@ export default function App() {
     )
   }
 
+  // Función para limpiar los campos de texto
   let limpiar = () => {
     setTxtId(null);
     setTxtNombre(null);
