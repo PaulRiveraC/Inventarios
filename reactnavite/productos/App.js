@@ -1,8 +1,7 @@
-import { StatusBar } from 'expo-status-bar'; // Importa el componente StatusBar de expo-status-bar
-import { FlatList, StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, Pressable } from 'react-native'; // Importa componentes de React Native
-import { useState } from 'react'; // Importa el hook useState de React
+import { StatusBar } from 'expo-status-bar';
+import { FlatList, StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableHighlight, Modal, Pressable } from 'react-native';
+import { useState } from 'react';
 
-// Arreglo con productos
 let productos = [
   { nombre: "Manzanas", categoria: "Frutas", precioCompra: "0.50", precioVenta: "0.60", id: "200" },
   { nombre: "Pan", categoria: "Panadería", precioCompra: "0.30", precioVenta: "0.40", id: "201" },
@@ -11,11 +10,11 @@ let productos = [
   { nombre: "Yogur", categoria: "Lácteos", precioCompra: "0.80", precioVenta: "1.00", id: "204" }
 ];
 
-let esNuevo = true; // Variable para determinar si es un nuevo producto
-let indiceSeleccionado = -1; // Índice del producto seleccionado para editar
+let esNuevo = true;
+let indiceSeleccionado = -1;
 
 export default function App() {
-  // Estados para los campos de texto y el número de elementos
+
   const [txtId, setTxtId] = useState();
   const [txtNombre, setTxtNombre] = useState();
   const [txtCategoria, setTxtCategoria] = useState();
@@ -24,7 +23,6 @@ export default function App() {
   const [numElementos, setNumElementos] = useState(productos.length);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Función para verificar si el producto ya existe
   let existeProducto = () => {
     for (let i = 0; i < productos.length; i++) {
       if (productos[i].id == txtId) {
@@ -34,24 +32,14 @@ export default function App() {
     return false;
   }
 
-  // Función para verificar si hay campos vacíos
   let camposVacios = () => {
-    if (txtId == null || txtNombre == null || txtCategoria == null || txtPrecioCompra == null
-      || txtId == "" || txtNombre == "" || txtCategoria == "" || txtPrecioCompra == "") {
+    if (txtId == null || txtNombre == null || txtCategoria == null || txtPrecioCompra == null || txtId == "" || txtNombre == "" || txtCategoria == "" || txtPrecioCompra == "") {
       return true;
     } else {
       return false;
     }
   }
 
-  // Función para calcular el precio de venta
-  let calcularPrecioVenta = (precioCompra) => {
-    let floatPrecioCompra = parseFloat(precioCompra);
-    let precioVentaCalculado = floatPrecioCompra + (floatPrecioCompra * 0.20);
-    return precioVentaCalculado.toFixed(2);
-  }
-
-  // Función para guardar el producto
   let guardarProducto = () => {
     if (camposVacios()) {
       Alert.alert("INFO", "Ingrese todos los campos obligatorios");
@@ -60,12 +48,15 @@ export default function App() {
         if (existeProducto()) {
           Alert.alert("INFO", "Ya existe un producto con el id");
         } else {
+          let floatPrecioCompra = parseFloat(txtPrecioCompra);
+          let precioVentaCalculado = floatPrecioCompra + (floatPrecioCompra * 0.20);
+          precioVentaCalculado = precioVentaCalculado.toFixed(2);
           let producto = {
             id: txtId,
             nombre: txtNombre,
             categoria: txtCategoria,
             precioCompra: txtPrecioCompra,
-            precioVenta: calcularPrecioVenta(txtPrecioCompra)
+            precioVenta: precioVentaCalculado
           };
           productos.push(producto);
         }
@@ -73,58 +64,60 @@ export default function App() {
         productos[indiceSeleccionado].nombre = txtNombre;
         productos[indiceSeleccionado].categoria = txtCategoria;
         productos[indiceSeleccionado].precioCompra = txtPrecioCompra;
-        productos[indiceSeleccionado].precioVenta = calcularPrecioVenta(txtPrecioCompra);
+        let floatPrecioCompra = parseFloat(productos[indiceSeleccionado].precioCompra);
+        let precioVentaCalculado = floatPrecioCompra + (floatPrecioCompra * 0.20);
+        productos[indiceSeleccionado].precioVenta = precioVentaCalculado.toFixed(2);
       }
       limpiar();
       setNumElementos(productos.length);
     }
   }
 
-  // Componente para renderizar cada producto
   let ItemProducto = ({ indice, producto }) => {
     return (
-      <View style={styles.producto}>
-        <View style={styles.itemIndice}>
-          <Text style={styles.texto1}>
-            {indice + 1}
-          </Text>
+      <TouchableHighlight
+        activeOpacity={0.6}
+        underlayColor="#6592d0"
+        onPress={() => {
+          setTxtId(producto.id);
+          setTxtNombre(producto.nombre);
+          setTxtCategoria(producto.categoria);
+          setTxtPrecioCompra(producto.precioCompra);
+          setTxtPrecioVenta(producto.precioVenta);
+          esNuevo = false;
+          indiceSeleccionado = indice;
+        }}>
+
+        <View style={styles.producto}>
+          <View style={styles.itemIndice}>
+            <Text style={styles.texto1}>
+              {indice + 1}
+            </Text>
+          </View>
+          <View style={styles.itemContenido}>
+            <Text style={styles.texto1}>
+              {producto.nombre} ({producto.categoria})
+            </Text>
+            <Text style={styles.texto2}>
+              USD {producto.precioVenta}
+            </Text>
+          </View>
+          <View style={styles.itemBotones}>
+            <Button
+              title=" X "
+              color="red"
+              onPress={() => {
+                setModalVisible(true);
+                indiceSeleccionado = indice;
+              }}
+            />
+          </View>
         </View>
-        <View style={styles.itemContenido}>
-          <Text style={styles.texto1}>
-            {producto.nombre} ({producto.categoria})
-          </Text>
-          <Text style={styles.texto2}>
-            USD {producto.precioVenta}
-          </Text>
-        </View>
-        <View style={styles.itemBotones}>
-          <Button
-            title="✎"
-            color="goldenrod"
-            onPress={() => {
-              setTxtId(producto.id);
-              setTxtNombre(producto.nombre);
-              setTxtCategoria(producto.categoria);
-              setTxtPrecioCompra(producto.precioCompra);
-              setTxtPrecioVenta(producto.precioVenta);
-              esNuevo = false;
-              indiceSeleccionado = indice;
-            }}
-          />
-          <Button
-            title="✘"
-            color="red"
-            onPress={() => {
-              productos.splice(indice, 1);
-              setNumElementos(productos.length);
-            }}
-          />
-        </View>
-      </View>
+      </TouchableHighlight>
+
     )
   }
 
-  // Función para limpiar los campos de texto
   let limpiar = () => {
     setTxtId(null);
     setTxtNombre(null);
@@ -135,7 +128,37 @@ export default function App() {
   }
 
   return (
+
     <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.areaCabeceraModal}>
+              <Text style={styles.modalText}>¿Está seguro que quiere eliminar?</Text>
+            </View>
+            <View style={styles.areaBotonesModal}>
+              <Pressable
+                style={[styles.button, styles.buttonAceptar]}
+                onPress={() => {
+                  productos.splice(indiceSeleccionado, 1);
+                  setNumElementos(productos.length);
+                  setModalVisible(!modalVisible);
+                }}>
+                <Text style={styles.textStyle}>Aceptar</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonCancelar]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.textStyle}>Cancelar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <ScrollView>
         <View style={styles.areaCabecera}>
           <Text style={styles.titulo}>PRODUCTOS</Text>
@@ -161,7 +184,9 @@ export default function App() {
             placeholder='Ingrese precio de compra'
             onChangeText={(text) => {
               setTxtPrecioCompra(text);
-              setTxtPrecioVenta(calcularPrecioVenta(text));
+              let floatPrecioCompra = parseFloat(text);
+              let precioVentaCalculado = floatPrecioCompra + (floatPrecioCompra * 0.20);
+              setTxtPrecioVenta(precioVentaCalculado.toFixed(2));
             }}
             keyboardType='numeric'
           />
@@ -187,6 +212,7 @@ export default function App() {
             />
             <Text>Elementos: {numElementos}</Text>
           </View>
+
         </View>
       </ScrollView>
       <View style={styles.areaContenido}>
@@ -217,28 +243,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 24,
-    color: "#4682b4", // Azul acero
+    color: "#ff6347", // Rojo tomate
     marginBottom: 10,
   },
   producto: {
-    backgroundColor: "#e6e6fa", // Lavanda
+    backgroundColor: "#ffe4e1", // Rosa claro
     marginBottom: 10,
     marginHorizontal: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderWidth: 2,
-    borderColor: '#3cb4ca', // Azul claro
+    borderColor: '#ff69b4', // Rosa fuerte
     borderRadius: 10,
     flexDirection: "row",
   },
   texto1: {
     fontSize: 18,
-    color: "#4b0082", // Índigo
+    color: "#ff4500", // Naranja rojo
   },
   texto2: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#8a2be2", // Azul violeta
+    color: "#ff1493", // Rosa profundo
   },
   areaCabecera: {
     flex: 4,
@@ -270,7 +296,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "#ff6347", // Rojo tomate
     paddingVertical: 3,
     paddingHorizontal: 5,
     marginBottom: 5,
@@ -288,7 +314,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#fffacd', // Amarillo claro
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -310,11 +336,11 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonAceptar: {
-    backgroundColor: '#5cf523', // Verde claro
+    backgroundColor: '#32cd32', // Verde lima
     marginHorizontal: 10,
   },
   buttonCancelar: {
-    backgroundColor: '#f53323', // Rojo
+    backgroundColor: '#ff4500', // Naranja rojo
     marginHorizontal: 10,
   },
   textStyle: {

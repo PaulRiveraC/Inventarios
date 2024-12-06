@@ -184,7 +184,7 @@ export default function App() {
             // concepto destructuring
             return <ItemPersona indice={index} persona={item} />;
           }} // fin concepto destructuring
-          keyExtractor={(item) => item.cedula}
+          keyExtractor={item => item.cedula}
         />
       </View>
       <View style={styles.areaPiePagiana}>
