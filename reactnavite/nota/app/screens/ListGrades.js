@@ -7,32 +7,32 @@ import { useState } from 'react';
 export const ListGrades = ({ navigation }) => {
   const [time, setTime] = useState();
 
-  const refreshList = () => {
+  const refreshList = () =>{
     setTime(new Date().getTime());
   }
 
   const ItemGrade = ({ nota }) => {
     return <TouchableHighlight
-      onPress={() => {
-        navigation.navigate("GradeFormNav", { objNota: nota, fnRefresh: refreshList });
+      onPress={()=>{
+        navigation.navigate("GradeFormNav", {objNota:nota, fnRefresh:refreshList});
       }}
     >
-      <ListItem bottomDivider>
-        <Avatar
-          title={
-            nota.subject.substring(0, 1)
-          }
-          containerStyle={{ backgroundColor: '#6733b9' }}
-          rounded
-        />
-        <ListItem.Content>
-          <ListItem.Title>{nota.subject}</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Content>
-          <ListItem.Subtitle>{nota.grade}</ListItem.Subtitle>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
+    <ListItem bottomDivider>
+      <Avatar
+        title={
+          nota.subject.substring(0,1)
+        }
+        containerStyle={{ backgroundColor: '#6733b9' }}
+        rounded
+      />
+      <ListItem.Content>
+        <ListItem.Title>{nota.subject}</ListItem.Title>
+      </ListItem.Content>
+      <ListItem.Content>
+        <ListItem.Subtitle>{nota.grade}</ListItem.Subtitle>
+      </ListItem.Content>
+      <ListItem.Chevron/>
+    </ListItem>
     </TouchableHighlight>
   }
 
@@ -51,7 +51,7 @@ export const ListGrades = ({ navigation }) => {
       title="+"
       placement="right"
       onPress={() => {
-        navigation.navigate("GradeFormNav", { objNota: null, fnRefresh: refreshList })
+        navigation.navigate("GradeFormNav", {objNota:null, fnRefresh:refreshList})
       }}
     />
   </View>

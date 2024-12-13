@@ -3,57 +3,57 @@ import { Input, Button } from '@rneui/base'
 import { useState } from 'react';
 import { saveGrade, updateGrade } from '../services/GradeServices';
 
-export const GradeForm = ({ navigation, route }) => {
+export const GradeForm = ({navigation, route}) => {
 
     let isNew = true;
     let subjectR;
     let gradeR;
+    
 
-
-    if (route.params.objNota != null) {
+    if(route.params.objNota != null){
         isNew = false;
     }
-    if (!isNew) {
+    if(!isNew){
         subjectR = route.params.objNota.subject
         gradeR = route.params.objNota.grade;
     }
 
-    const [subject, setSubject] = useState(subjectR == null ? null : subjectR + "");
-    const [grade, setGrade] = useState(gradeR == null ? null : gradeR + ""); //aqui
+    const [subject, setSubject] = useState(subjectR==null?null:subjectR+"");
+    const [grade, setGrade] = useState(gradeR==null?null:gradeR+""); //aqui
 
     const [errorSubject, setErrorSubject] = useState();
     const [errorGrade, setErrorGrade] = useState();
     let hasErrors = false;
 
-    const save = () => {
+    const save=()=>{
         setErrorSubject(null);
         setErrorGrade(null);
         validate();
-        if (!hasErrors) {
-            if (isNew) {
-                saveGrade({ subject: subject, grade: grade });
-            } else {
-                updateGrade({ subject: subject, grade: grade });
+        if(!hasErrors){
+            if(isNew){
+                saveGrade({subject:subject, grade:grade});
+            }else{
+                updateGrade({subject:subject, grade:grade}); 
             }
             navigation.goBack();
             route.params.fnRefresh();
-        }
+        } 
     }
 
-    const validate = () => {
-        if (subject == null || subject == "") {
+    const validate=()=>{
+        if(subject == null || subject==""){
             setErrorSubject("Debe ingresar una materia");
             hasErrors = true;
         }
         let gradeFloat = parseFloat(grade);
-        if (gradeFloat == null || isNaN(gradeFloat) || gradeFloat < 0 || gradeFloat > 10) {
+        if(gradeFloat == null || isNaN(gradeFloat) || gradeFloat < 0 || gradeFloat > 10){
             setErrorGrade("Debe ingresar nota entre 0 y 10");
             hasErrors = true;
         }
     }
 
     return <View style={styles.container}>
-        <Input
+        <Input 
             value={subject}
             onChangeText={setSubject}
             placeholder='Ejemplo: Matemáticas'
@@ -61,7 +61,7 @@ export const GradeForm = ({ navigation, route }) => {
             errorMessage={errorSubject}
             disabled={!isNew}
         />
-        <Input
+        <Input 
             value={grade}
             onChangeText={setGrade}
             placeholder='0-10'
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    saveButton: {
+    saveButton:{
         backgroundColor: '#5dc038'
     }
 });
